@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Genuvora | Welcome</title>
+  <style>
+    :root {
+      --bg: #06111f;
+      --bg2: #0c1f34;
+      --card: rgba(10, 20, 38, 0.75);
+      --text: #edf3ff;
+      --muted: #9fb2cf;
+      --accent: #7c5cff;
+      --accent2: #22d3ee;
+      --accent3: #f59e0b;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(124,92,255,0.35), transparent 30%),
+        radial-gradient(circle at top right, rgba(34,211,238,0.25), transparent 35%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      pointer-events: none;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.55;
+      animation: floatGlow 8s infinite alternate ease-in-out;
+    }
+
+    body::before {
+      width: 260px;
+      height: 260px;
+      background: rgba(124,92,255,0.35);
+      left: -70px;
+      top: 80px;
+    }
+
+    body::after {
+      width: 220px;
+      height: 220px;
+      background: rgba(34,211,238,0.25);
+      right: -60px;
+      bottom: 70px;
+      animation-delay: -3s;
+    }
+
+    .scene {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      isolation: isolate;
+    }
+
+    .orbital {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .orbital span {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 0 20px rgba(255,255,255,0.9);
+      animation: drift 12s linear infinite;
+      opacity: 0.8;
+    }
+
+    .shell {
+      position: relative;
+      width: min(920px, 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow: hidden;
+      padding: clamp(22px, 4vw, 42px);
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124,92,255,0.14), transparent 45%, rgba(34,211,238,0.14));
+      pointer-events: none;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(124,92,255,0.45);
+    }
+
+    .brand-mark::before {
+      content: "G";
+      font-size: 1rem;
+    }
+
+    .status-pill {
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: #d7e0f0;
+      background: rgba(255,255,255,0.04);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(20px, 3.6vw, 40px);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .headline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: #d8dcff;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 6vw, 4.6rem);
+      line-height: 0.94;
+      letter-spacing: -0.04em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #ffffff, #9edfff, #b99cff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtext {
+      margin: 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.7;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 14px;
+      padding: 13px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn.primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 14px 35px rgba(124,92,255,0.35);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+    }
+
+    .panel {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, rgba(13,25,49,0.84), rgba(9,17,30,0.92));
+      padding: 24px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34,197,94,0.15);
+    }
+
+    .construction-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.35);
+      color: #f7d596;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .progress-wrap {
+      margin-top: 8px;
+      margin-bottom: 18px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.92rem;
+      color: #bdd0ea;
+      margin-bottom: 8px;
+    }
+
+    .bar {
+      height: 12px;
+      width: 100%;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      box-shadow: 0 0 25px rgba(124,92,255,0.5);
+      transition: width 0.6s ease;
+      position: relative;
+    }
+
+    .bar span::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+      animation: shine 2.4s linear infinite;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 2px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @keyframes drift {
+      0% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0; }
+      10% { opacity: 0.9; }
+      50% { transform: translate3d(30px, -75px, 0) scale(1.3); }
+      100% { transform: translate3d(-40px, -150px, 0) scale(0.75); opacity: 0; }
+    }
+
+    @keyframes shine {
+      from { transform: translateX(-120%); }
+      to { transform: translateX(120%); }
+    }
+
+    @keyframes floatGlow {
+      from { transform: translateY(0) scale(0.98); }
+      to { transform: translateY(-14px) scale(1.06); }
+    }
+
+    @media (max-width: 780px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="orbital" aria-hidden="true">
+      <span style="left:12%; top:20%; animation-duration: 9s;"></span>
+      <span style="left:72%; top:18%; animation-duration: 11s; animation-delay: -3s;"></span>
+      <span style="left:58%; top:68%; animation-duration: 13s; animation-delay: -5s;"></span>
+      <span style="left:24%; top:72%; animation-duration: 10s; animation-delay: -2s;"></span>
+      <span style="left:86%; top:52%; animation-duration: 12s; animation-delay: -7s;"></span>
+    </div>
+
+    <main class="shell">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div>Genuvora</div>
+        </div>
+        <div class="status-pill">Welcome Page</div>
+      </div>
+
+      <section class="content">
+        <div class="headline">
+          <div class="eyebrow">Bangladesh • Global Shopping</div>
+          <h1>
+            Welcome to<br />
+            <span class="gradient-text">Genuvora</span>
+          </h1>
+          <p class="subtext">
+            Genuvora is your trusted international product selling platform built for Bangladeshi shoppers. We bring together quality global products, seamless shopping, and reliable delivery support so customers in Bangladesh can enjoy a premium online buying experience.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#status">Explore Services</a>
+            <a class="btn secondary" href="#updates">Stay Updated</a>
+          </div>
+        </div>
+
+        <aside class="panel" id="status">
+          <div class="panel-head">
+            <div class="panel-title">Our Service Focus</div>
+            <div class="dot" aria-hidden="true"></div>
+          </div>
+
+          <div class="construction-label">Under Construction</div>
+
+          <div class="progress-wrap">
+            <div class="progress-label">
+              <span>Global Product Access</span>
+              <span id="percent">0%</span>
+            </div>
+            <div class="bar"><span id="progressBar"></span></div>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>01</strong>
+              <span>International Products</span>
+            </div>
+            <div class="stat">
+              <strong>02</strong>
+              <span>Bangladeshi Customer Support</span>
+            </div>
+            <div class="stat">
+              <strong>03</strong>
+              <span>Premium Shopping Experience</span>
+            </div>
+          </div>
+
+          <div class="footer-note" id="updates">
+            Genuvora is building a smooth and trusted marketplace experience for Bangladeshi customers looking to discover and buy premium international products.
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const percentEl = document.getElementById('percent');
+    const progressBar = document.getElementById('progressBar');
+
+    let value = 0;
+    const target = 86;
+
+    const updateProgress = () => {
+      if (value < target) {
+        value += Math.ceil(Math.random() * 4) + 1;
+        if (value > target) value = target;
+        percentEl.textContent = value + '%';
+        progressBar.style.width = value + '%';
+      }
+    };
+
+    setInterval(updateProgress, 320);
+
+    const shell = document.querySelector('.shell');
+    shell.addEventListener('mousemove', (event) => {
+      const rect = shell.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+      shell.style.transform = `perspective(1200px) rotateX(${(-y * 6).toFixed(2)}deg) rotateY(${(x * 8).toFixed(2)}deg)`;
+    });
+
+    shell.addEventListener('mouseleave', () => {
+      shell.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+    });
+  </script>
+</body>
+</html>
